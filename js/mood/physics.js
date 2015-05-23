@@ -11,9 +11,9 @@ mood.physics = (function(){
             var xtile = mood.map.getTileAt(map, pawn.x + dx, pawn.y);
             var ytile = mood.map.getTileAt(map, pawn.x, pawn.y + dy);
             
-            if (xtile.passable) 
+            if (xtile.height === 0) 
                 pawn.x += dx;
-            if (ytile.passable) 
+            if (ytile.height === 0) 
                 pawn.y += dy;
         }
     }

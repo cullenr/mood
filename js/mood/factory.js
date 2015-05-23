@@ -8,6 +8,7 @@ mood.factory = {
            typeof data.tiles !== "object") {
             throw new Error("required properties missing from map");
         }
+        data.objects = [];
         data.light = data.light || 0;
         data.fogThickness = data.fogThickness || 0;
 
@@ -15,9 +16,10 @@ mood.factory = {
     },
     createTile: function createTile(data) {
         data = data || {};
+        // should we cast rays beyond this tile?
         data.terminal = typeof data.terminal === "undefined" ? true : data.terminal;
-        data.passable = typeof data.passable === "undefined" ? false : data.passable;
-        data.height = data.height || 1;
+        // The height of this tile. height 0 allows the player to walk on this tile.
+        data.height = typeof data.height === "undefined" ? 1 : data.height;
 
         return data;
     },
@@ -40,5 +42,5 @@ mood.factory = {
         }
 
         return data;
-    },
+    }
 }

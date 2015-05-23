@@ -33,7 +33,6 @@ volpe.mapdata = {
         tiles: [
             mood.factory.createTile({
                 terminal:false,
-                passable: true,
                 height: 0
             }),
             mood.factory.createTile({

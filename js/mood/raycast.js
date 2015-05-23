@@ -5,7 +5,7 @@ mood.raycast = (function(){
         cast: function cast(map, point, angle, range) {
             var sin = Math.sin(angle);
             var cos = Math.cos(angle);
-            var noWall = { lengthSquared: Infinity };
+            var noWall = { lengthSquared: Infinity }; // this is no good as we are not storing the length of this segment
             
             var ray = function ray(origin) {
                 var stepX = createStep(sin, cos, origin.x, origin.y);
@@ -23,7 +23,7 @@ mood.raycast = (function(){
                 return out;
             };
             var createStep = function createStep(rise, run, x, y, inverted) {
-                if (run === 0) // this wont work with the new tile format
+                if (run === 0)
                     return noWall;
                 var dx = run > 0 ? Math.floor(x + 1) - x : Math.ceil(x - 1) - x;
                 var dy = dx * (rise / run);
@@ -38,6 +38,8 @@ mood.raycast = (function(){
                 var dx = cos < 0 ? shiftX : 0;
                 var dy = sin < 0 ? shiftY : 0;
                 step.tile = mood.map.getTileAt(map, step.x - dx, step.y - dy);
+                // check if we are intersecting objects in this cell if so add them to the output.
+
                 // step.distance = distance + step.lengthSquared; THIS MAKES A WIERD EFFECT IN PLACE OF THE SQRT
                 step.distance = distance + Math.sqrt(step.lengthSquared);
                 step.shading = map.fogThickness;
@@ -45,6 +47,7 @@ mood.raycast = (function(){
                 
                 return step;
             };
+
             // TODO : make is so that we do not create new arrays for each call to this function - 
             // we create multiple rays in cast which sucks, this is completely unnescesary.
             //  ray = {buffer:[step] length: number} check length instead of the length or the buffer.

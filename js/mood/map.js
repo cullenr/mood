@@ -2,6 +2,28 @@
 
 mood.map = (function(){
     return {
+        loadMap: function loadMap(mapdata) {
+            var physicsMap = mapdata.tilemap.map(function(id){
+                return [id];
+            });
+            // add items
+            // for(var i = 0; i < mapdata.objects; i++) {
+            //     physicsMap[i] = [mapdata[i]];
+            // }
+
+            // TODO : naughty - switch this for a clone!
+            mapdata.physicsMap = physicsMap;
+            return mapdata;
+        },
+        getObjectsAt: function getObjectsAt(map, x, y) {
+            x = Math.floor(x);
+            y = Math.floor(y);
+            var out = x < 0 || x > map.size - 1 || y < 0 || y > map.size - 1
+                ? []
+                : map.physicsMap[y * map.size + x];
+
+            return out;
+        },
         getTileAt: function getTileAt(map, x, y) {
             x = Math.floor(x);
             y = Math.floor(y);
